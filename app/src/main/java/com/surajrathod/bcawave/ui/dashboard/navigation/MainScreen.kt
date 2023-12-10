@@ -13,12 +13,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.toFontFamily
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.surajrathod.bcawave.R
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -37,7 +41,6 @@ fun MainScreen() {
     }
 
 }
-
 
 
 @Composable
@@ -76,7 +79,7 @@ fun RowScope.AddItem(
 ) {
     NavigationBarItem(
         label = {
-            Text(text = screen.title)
+            Text(text = screen.title, fontFamily = Font(R.font.main_regular).toFontFamily())
         },
         icon = {
             Icon(imageVector = screen.icon, contentDescription = "")
@@ -85,10 +88,10 @@ fun RowScope.AddItem(
             it.route == screen.route
         },
         onClick = {
-                navHostController.navigate(screen.route){
-                    popUpTo(navHostController.graph.findStartDestination().id)
-                    launchSingleTop=true
-                }
+            navHostController.navigate(screen.route) {
+                popUpTo(navHostController.graph.findStartDestination().id)
+                launchSingleTop = true
+            }
 
         }
     )
