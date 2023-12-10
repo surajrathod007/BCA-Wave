@@ -76,6 +76,14 @@ dependencies {
     //dagger hilt
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
+
+    //compose navigation
+    val nav_version = "2.7.5"
+
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    //compose material
+    implementation("androidx.compose.material:material:1.5.4")
 }
 
 // Allow references to generated code
