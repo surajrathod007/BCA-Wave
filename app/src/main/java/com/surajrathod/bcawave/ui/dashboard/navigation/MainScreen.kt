@@ -2,10 +2,7 @@ package com.surajrathod.bcawave.ui.dashboard.navigation
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -14,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.toFontFamily
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -23,12 +19,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.surajrathod.bcawave.R
+import com.surajrathod.bcawave.ui.dashboard.home.HomeViewModel
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(homeViewModel: HomeViewModel) {
 
     val navController = rememberNavController()
 
@@ -37,7 +34,7 @@ fun MainScreen() {
             BottomBar(navHostController = navController)
         }
     ) {
-        BottomNavGraph(navController = navController)
+        BottomNavGraph(navController = navController,homeViewModel)
     }
 
 }
