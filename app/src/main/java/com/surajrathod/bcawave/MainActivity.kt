@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.google.firebase.ktx.Firebase
 import com.surajrathod.bcawave.ui.dashboard.home.HomeViewModel
 import com.surajrathod.bcawave.ui.dashboard.navigation.MainScreen
 import com.surajrathod.bcawave.ui.theme.BCAWaveTheme
@@ -19,8 +20,11 @@ import com.surajrathod.bcawave.ui.theme.MainTheme
 class MainActivity : ComponentActivity() {
 
     private val homeViewModel by viewModels<HomeViewModel>()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        homeViewModel.loadData()
         setContent {
             MainTheme(false) {
                 // A surface container using the 'background' color from the theme
