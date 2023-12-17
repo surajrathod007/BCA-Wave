@@ -30,9 +30,11 @@ import com.surajrathod.bcawave.ui.theme.PrimaryBgColor
 import com.surajrathod.bcawave.ui.theme.PrimaryColor
 
 @Composable
-fun HomeScreen(homeViewModel: HomeViewModel) {
+fun HomeScreen(homeViewModel: HomeViewModel, paddingValues: PaddingValues) {
 
-    Surface(color = PrimaryBgColor, modifier = Modifier.fillMaxSize()) {
+    Surface(color = PrimaryBgColor, modifier = Modifier
+        .padding(paddingValues)
+        .fillMaxSize()) {
         Column {
             Box(
                 Modifier

@@ -10,6 +10,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.toFontFamily
 import androidx.navigation.NavDestination
@@ -20,6 +21,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.surajrathod.bcawave.R
 import com.surajrathod.bcawave.ui.dashboard.home.HomeViewModel
+import com.surajrathod.bcawave.ui.theme.PrimaryColor
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -33,8 +35,8 @@ fun MainScreen(homeViewModel: HomeViewModel) {
         bottomBar = {
             BottomBar(navHostController = navController)
         }
-    ) {
-        BottomNavGraph(navController = navController,homeViewModel)
+    ) {paddings ->
+        BottomNavGraph(navController = navController,homeViewModel,paddings)
     }
 
 }
@@ -52,7 +54,7 @@ fun BottomBar(navHostController: NavHostController) {
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    NavigationBar {
+    NavigationBar(containerColor = PrimaryColor, contentColor = Color.White) {
         screens.forEach { screen ->
             if (currentDestination != null) {
                 AddItem(
@@ -76,7 +78,7 @@ fun RowScope.AddItem(
 ) {
     NavigationBarItem(
         label = {
-            Text(text = screen.title, fontFamily = Font(R.font.main_regular).toFontFamily())
+            Text(text = screen.title, fontFamily = Font(R.font.main_regular).toFontFamily(), color = Color.White)
         },
         icon = {
             Icon(imageVector = screen.icon, contentDescription = "")
@@ -90,6 +92,6 @@ fun RowScope.AddItem(
                 launchSingleTop = true
             }
 
-        }
+        },
     )
 }

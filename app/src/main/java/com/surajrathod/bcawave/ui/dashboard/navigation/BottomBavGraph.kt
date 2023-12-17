@@ -1,5 +1,6 @@
 package com.surajrathod.bcawave.ui.dashboard.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -10,13 +11,17 @@ import com.surajrathod.bcawave.ui.dashboard.profile.ProfileScreen
 import com.surajrathod.bcawave.ui.dashboard.programs.ProgramsScreen
 
 @Composable
-fun BottomNavGraph(navController: NavHostController, homeViewModel: HomeViewModel) {
+fun BottomNavGraph(
+    navController: NavHostController,
+    homeViewModel: HomeViewModel,
+    paddings: PaddingValues
+) {
 
     NavHost(navController = navController, startDestination = BottomBarScreen.Home.route) {
         composable(
             route = BottomBarScreen.Home.route
         ) {
-            HomeScreen(homeViewModel)
+            HomeScreen(homeViewModel,paddings)
         }
         composable(
             route = BottomBarScreen.Programs.route
