@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -32,9 +33,11 @@ import com.surajrathod.bcawave.ui.theme.PrimaryColor
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel, paddingValues: PaddingValues) {
 
-    Surface(color = PrimaryBgColor, modifier = Modifier
-        .padding(paddingValues)
-        .fillMaxSize()) {
+    Surface(
+        color = PrimaryBgColor, modifier = Modifier
+            .padding(paddingValues)
+            .fillMaxSize()
+    ) {
         Column {
             Box(
                 Modifier
@@ -94,8 +97,8 @@ fun HomeScreen(homeViewModel: HomeViewModel, paddingValues: PaddingValues) {
                     contentPadding = PaddingValues(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(homeViewModel.myPrograms.value) { program ->
-                        ProgramItem(program = program) {
+                    itemsIndexed(homeViewModel.myPrograms.value) { index, item ->
+                        ProgramItem(program = item, index = (index + 1).toString()) {
 
                         }
                     }

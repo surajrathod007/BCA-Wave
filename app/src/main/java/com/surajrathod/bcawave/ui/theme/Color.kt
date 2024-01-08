@@ -12,3 +12,5 @@ val Pink40 = Color(0xFF7D5260)
 
 val PrimaryColor = Color(0xff3e416e)
 val PrimaryBgColor = Color(0xfff0f4fd)
+
+val UnitColor = Color(0xFF00CC69)
