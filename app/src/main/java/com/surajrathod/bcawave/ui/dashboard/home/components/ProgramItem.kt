@@ -64,7 +64,7 @@ fun ProgramItem(
             Text(
                 text = program.title,
                 fontFamily = Font(
-                    R.font.main_bold
+                    R.font.main_semibold
                 ).toFontFamily(),
                 color = PrimaryColor,
                 maxLines = 2,
