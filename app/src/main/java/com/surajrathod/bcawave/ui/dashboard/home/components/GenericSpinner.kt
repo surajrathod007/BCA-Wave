@@ -33,7 +33,7 @@ import com.surajrathod.bcawave.ui.theme.PrimaryColor
 fun RowScope.GenericSpinner(
     menuItems: List<String>? = mutableListOf("Suraj", "Temp"),
     currentSelection: String?,
-    homeViewModel: HomeViewModel,
+    selectedMenuItem : (String) -> Unit,
     myModifier: Modifier = Modifier
 ) {
 
@@ -79,7 +79,9 @@ fun RowScope.GenericSpinner(
                         },
                         onClick = {
                             expanded = false
-                            makeSelection(it, homeViewModel)
+                            selectedMenuItem.invoke(it)
+//                            makeSelection(it, homeViewModel)
+//                            homeViewModel.updateData()
                         },
                     )
                 }

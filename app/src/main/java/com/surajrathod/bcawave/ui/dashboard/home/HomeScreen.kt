@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.toFontFamily
 import androidx.compose.ui.text.style.TextAlign
@@ -26,12 +27,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.surajrathod.bcawave.R
 import com.surajrathod.bcawave.ui.dashboard.home.components.GenericSpinner
+import com.surajrathod.bcawave.ui.dashboard.home.components.LoaderText
 import com.surajrathod.bcawave.ui.dashboard.home.components.ProgramItem
 import com.surajrathod.bcawave.ui.theme.PrimaryBgColor
 import com.surajrathod.bcawave.ui.theme.PrimaryColor
 
 @Composable
-fun HomeScreen(homeViewModel: HomeViewModel, paddingValues: PaddingValues) {
+fun HomeScreen(
+    homeViewModel: HomeViewModel,
+    paddingValues: PaddingValues,
+    onProgramItemClick: (Program) -> Unit = {}
+) {
 
     Surface(
         color = PrimaryBgColor, modifier = Modifier
@@ -63,19 +69,28 @@ fun HomeScreen(homeViewModel: HomeViewModel, paddingValues: PaddingValues) {
                         GenericSpinner(
                             homeViewModel.semList,
                             homeViewModel.currentSem.value,
-                            homeViewModel,
+                            {
+                                makeSelection(it, homeViewModel)
+                                homeViewModel.updateData()
+                            },
                             Modifier.padding(start = 6.dp, end = 3.dp)
                         )
                         GenericSpinner(
                             homeViewModel.subjectList.value,
                             homeViewModel.currentSubject.value,
-                            homeViewModel,
+                            {
+                                makeSelection(it, homeViewModel)
+                                homeViewModel.updateData()
+                            },
                             Modifier.padding(start = 3.dp, end = 3.dp)
                         )
                         GenericSpinner(
                             homeViewModel.unitList,
                             homeViewModel.currentUnit.value,
-                            homeViewModel,
+                            {
+                                makeSelection(it, homeViewModel)
+                                homeViewModel.updateData()
+                            },
                             Modifier.padding(start = 3.dp, end = 6.dp)
                         )
                     }
@@ -83,12 +98,15 @@ fun HomeScreen(homeViewModel: HomeViewModel, paddingValues: PaddingValues) {
 
             }
             if (homeViewModel.isLoading.value) {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    Text(
-                        text = "Loading...",
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(PrimaryBgColor),
+                    contentAlignment = Alignment.Center
+                ) {
+                    LoaderText(
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .fillMaxSize()
                     )
                 }
 
@@ -99,7 +117,7 @@ fun HomeScreen(homeViewModel: HomeViewModel, paddingValues: PaddingValues) {
                 ) {
                     itemsIndexed(homeViewModel.myPrograms.value) { index, item ->
                         ProgramItem(program = item, index = (index + 1).toString()) {
-
+                            onProgramItemClick.invoke(it)
                         }
                     }
                 }

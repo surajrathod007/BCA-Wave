@@ -21,7 +21,9 @@ fun BottomNavGraph(
         composable(
             route = BottomBarScreen.Home.route
         ) {
-            HomeScreen(homeViewModel,paddings)
+            HomeScreen(homeViewModel, paddings) { program ->
+
+            }
         }
         composable(
             route = BottomBarScreen.Programs.route

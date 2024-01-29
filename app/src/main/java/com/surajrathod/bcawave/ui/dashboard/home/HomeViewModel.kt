@@ -49,10 +49,52 @@ class HomeViewModel : ViewModel() {
         programs.get().addOnSuccessListener { documents ->
             val programs = documents.toObjects(Program::class.java)
             myPrograms.value = programs
-            isLoading.value=false
+            isLoading.value = false
         }.addOnFailureListener {
             Log.d("SURAJFIRE", it.message.toString())
         }
+    }
+
+    fun updateData() {
+        getFirestorePrograms(currentSem.value, currentSubject.value, currentUnit.value)
+    }
+
+    private fun getFirestorePrograms(sem: String, sub: String, unit: String) {
+        try {
+            isLoading.value = true
+            val programCol = db.collection("newPrograms")
+            programCol.whereEqualTo("sem", sem).whereEqualTo("sub", sub).whereEqualTo("unit", unit)
+                .get().addOnSuccessListener {
+                    val mList = mutableListOf<Program>()
+                    //val j = it.documents[0].data
+                    for (j in it.documents) {
+                        val p = Program(
+                            id = j!!["id"].toString().toInt(),
+                            title = j["title"].toString(),
+                            content = j["content"].toString(),
+                            sem = j["sem"].toString(),
+                            sub = j["sub"].toString(),
+                            unit = j["unit"].toString()
+                        )
+                        mList.add(p)
+                    }
+                    //msg.postValue(mList.size.toString())
+                    //clearPrograms()
+//                    _programsList.postValue(mList)
+//                    _loading.postValue(false)
+                    isLoading.value = false
+                    myPrograms.value = mList
+                    //refresh()
+                }.addOnFailureListener {
+//                    msg.postValue("Failure"+it.message.toString())
+//                    clearPrograms()
+//                    refresh()
+//                    _loading.postValue(false)
+                }
+        } catch (e: Exception) {
+            //msg.postValue(e.message)
+        }
+
     }
 
 }

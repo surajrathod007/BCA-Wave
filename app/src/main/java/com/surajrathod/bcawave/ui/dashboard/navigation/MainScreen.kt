@@ -33,10 +33,10 @@ fun MainScreen(homeViewModel: HomeViewModel) {
 
     Scaffold(
         bottomBar = {
-            BottomBar(navHostController = navController)
+            NewBottomNavigation(navController)
         }
-    ) {paddings ->
-        BottomNavGraph(navController = navController,homeViewModel,paddings)
+    ) { paddings ->
+        BottomNavGraph(navController = navController, homeViewModel, paddings)
     }
 
 }
@@ -78,7 +78,11 @@ fun RowScope.AddItem(
 ) {
     NavigationBarItem(
         label = {
-            Text(text = screen.title, fontFamily = Font(R.font.main_regular).toFontFamily(), color = Color.White)
+            Text(
+                text = screen.title,
+                fontFamily = Font(R.font.main_regular).toFontFamily(),
+                color = Color.White
+            )
         },
         icon = {
             Icon(imageVector = screen.icon, contentDescription = "")
