@@ -5,10 +5,14 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.surajrathod.bcawave.db.dao.ProgramDao
+import com.surajrathod.bcawave.db.models.ProgramEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,6 +39,7 @@ class HomeViewModel @Inject constructor(private val programDb: ProgramDao) : Vie
 
     var myPrograms: MutableState<MutableList<Program>> = mutableStateOf(mutableListOf())
     var isLoading = mutableStateOf(false)
+
 
 
     private fun createSubjectsMutableMap() {
