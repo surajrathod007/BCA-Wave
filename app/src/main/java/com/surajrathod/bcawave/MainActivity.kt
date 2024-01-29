@@ -16,7 +16,9 @@ import com.surajrathod.bcawave.ui.dashboard.home.HomeViewModel
 import com.surajrathod.bcawave.ui.dashboard.navigation.MainScreen
 import com.surajrathod.bcawave.ui.theme.BCAWaveTheme
 import com.surajrathod.bcawave.ui.theme.MainTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val homeViewModel by viewModels<HomeViewModel>()

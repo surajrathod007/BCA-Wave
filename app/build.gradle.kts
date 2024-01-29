@@ -4,6 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
+    id("io.realm.kotlin")
 }
 
 android {
@@ -85,6 +86,19 @@ dependencies {
 
     //lottie
     implementation("com.airbnb.android:lottie-compose:6.0.1")
+
+    implementation("io.realm.kotlin:library-base:1.11.0")
+    //implementation 'io.realm.kotlin:library-sync:1.11.0'// If using Device Sync
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0") // If using coroutines with the SDK
+
+    val room_version = "2.6.1"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$room_version")
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$room_version")
 }
 
 // Allow references to generated code
