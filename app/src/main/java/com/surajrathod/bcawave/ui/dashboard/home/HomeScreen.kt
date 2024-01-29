@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -26,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.surajrathod.bcawave.R
+import com.surajrathod.bcawave.ui.dashboard.home.components.ComposeLottieAnimation
 import com.surajrathod.bcawave.ui.dashboard.home.components.GenericSpinner
 import com.surajrathod.bcawave.ui.dashboard.home.components.LoaderText
 import com.surajrathod.bcawave.ui.dashboard.home.components.ProgramItem
@@ -104,20 +107,29 @@ fun HomeScreen(
                         .background(PrimaryBgColor),
                     contentAlignment = Alignment.Center
                 ) {
-                    LoaderText(
+//                    LoaderText(
+//                        modifier = Modifier
+//                            .align(Alignment.Center)
+//                    )
+                    ComposeLottieAnimation(
                         modifier = Modifier
-                            .align(Alignment.Center)
+                            .fillMaxWidth()
+                            .height(160.dp)
                     )
                 }
 
             } else {
-                LazyColumn(
-                    contentPadding = PaddingValues(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    itemsIndexed(homeViewModel.myPrograms.value) { index, item ->
-                        ProgramItem(program = item, index = (index + 1).toString()) {
-                            onProgramItemClick.invoke(it)
+                if (homeViewModel.myPrograms.value.isEmpty()) {
+                    Text(text = "No programs")
+                } else {
+                    LazyColumn(
+                        contentPadding = PaddingValues(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        itemsIndexed(homeViewModel.myPrograms.value) { index, item ->
+                            ProgramItem(program = item, index = (index + 1).toString()) {
+                                onProgramItemClick.invoke(it)
+                            }
                         }
                     }
                 }

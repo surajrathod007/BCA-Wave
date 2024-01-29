@@ -1,5 +1,3 @@
-
-
 plugins {
     kotlin("kapt")
     id("com.android.application")
@@ -84,6 +82,9 @@ dependencies {
 
     //compose material
     implementation("androidx.compose.material:material:1.5.4")
+
+    //lottie
+    implementation("com.airbnb.android:lottie-compose:6.0.1")
 }
 
 // Allow references to generated code
