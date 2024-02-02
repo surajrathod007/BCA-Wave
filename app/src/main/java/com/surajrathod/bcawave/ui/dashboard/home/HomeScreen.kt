@@ -126,9 +126,20 @@ fun HomeScreen(
                         contentPadding = PaddingValues(8.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        itemsIndexed(homeViewModel.myPrograms.value) { index, item ->
-                            ProgramItem(program = item, index = (index + 1).toString()) {
-                                onProgramItemClick.invoke(it)
+                        itemsIndexed(homeViewModel.myPrograms.value, key = { _, item ->
+                            item.id
+                        }) { index, item ->
+                            ProgramItem(isFav = item.isFav,
+                                program = item,
+                                index = (index + 1).toString(),
+                                onFavClick = { isFav, program ->
+                                    if (isFav) {
+                                        homeViewModel.addToFavourite(program.toProgram())
+                                    } else {
+                                        homeViewModel.removeFromFav(program.id)
+                                    }
+                                }) { program ->
+                                onProgramItemClick.invoke(program.toProgram())
                             }
                         }
                     }

@@ -1,6 +1,8 @@
 package com.surajrathod.bcawave.ui.dashboard.home.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.Surface
@@ -19,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.toFontFamily
 import androidx.compose.ui.text.style.TextAlign
@@ -28,17 +32,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.surajrathod.bcawave.R
 import com.surajrathod.bcawave.ui.dashboard.home.Program
+import com.surajrathod.bcawave.ui.dashboard.home.ProgramItemData
 import com.surajrathod.bcawave.ui.theme.PrimaryColor
 import com.surajrathod.bcawave.ui.theme.UnitColor
+import com.surajrathod.bcawave.ui.utils.components.HeartButton
 
 
 @Preview
 @Composable
 fun ProgramItem(
     modifier: Modifier = Modifier,
-    program: Program = Program(title = "How could I force it to be a single line and draw ellipsis at the end of it? The result I want in this case is something like"),
+    isFav: Boolean = false,
+    program: ProgramItemData = ProgramItemData(title = "How could I force it to be a single line and draw ellipsis at the end of it? The result I want in this case is something like"),
     index: String = "0",
-    onClick: (Program) -> Unit = {}
+    onFavClick: (Boolean, ProgramItemData) -> Unit = { _, _ -> },
+    onClick: (ProgramItemData) -> Unit = {},
 ) {
     Surface(
         modifier = Modifier
@@ -46,7 +54,10 @@ fun ProgramItem(
             .height(44.dp)
             .clip(CircleShape.copy(CornerSize(4.dp)))
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
             Box(
                 modifier = Modifier
                     .width(4.dp)
@@ -69,8 +80,17 @@ fun ProgramItem(
                 color = PrimaryColor,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(start = 12.dp)
+                modifier = Modifier
+                    .padding(start = 12.dp)
+                    .weight(1f)
             )
+            HeartButton(modifier = Modifier.padding(end = 8.dp), isSelected = isFav, onClick = {
+                onFavClick.invoke(it, program)
+            })
+//            Image(
+//                painter = painterResource(id = R.drawable.ic_baseline_favorite_24),
+//                contentDescription = ""
+//            )
         }
     }
 }

@@ -37,9 +37,8 @@ class HomeViewModel @Inject constructor(private val programDb: ProgramDao) : Vie
 
     var subjectList = mutableStateOf(subjectmutableMap[1])
 
-    var myPrograms: MutableState<MutableList<Program>> = mutableStateOf(mutableListOf())
+    var myPrograms: MutableState<MutableList<ProgramItemData>> = mutableStateOf(mutableListOf())
     var isLoading = mutableStateOf(false)
-
 
 
     private fun createSubjectsMutableMap() {
@@ -51,17 +50,6 @@ class HomeViewModel @Inject constructor(private val programDb: ProgramDao) : Vie
         subjectmutableMap[6] = listOf("WEB APP DEV")
     }
 
-    fun loadData() {
-        isLoading.value = true
-        val programs = db.collection("newPrograms")
-        programs.get().addOnSuccessListener { documents ->
-            val programs = documents.toObjects(Program::class.java)
-            myPrograms.value = programs
-            isLoading.value = false
-        }.addOnFailureListener {
-            Log.d("SURAJFIRE", it.message.toString())
-        }
-    }
 
     fun updateData() {
         getFirestorePrograms(currentSem.value, currentSubject.value, currentUnit.value)
@@ -71,28 +59,29 @@ class HomeViewModel @Inject constructor(private val programDb: ProgramDao) : Vie
         try {
             isLoading.value = true
             val programCol = db.collection("newPrograms")
-            programCol.whereEqualTo("sem", sem).whereEqualTo("sub", sub).whereEqualTo("unit", unit)
+            programCol.whereEqualTo("sem", sem).whereEqualTo("sub", sub)
+                .whereEqualTo("unit", unit)
                 .get().addOnSuccessListener {
-                    val mList = mutableListOf<Program>()
-                    //val j = it.documents[0].data
-                    for (j in it.documents) {
-                        val p = Program(
-                            id = j!!["id"].toString().toInt(),
-                            title = j["title"].toString(),
-                            content = j["content"].toString(),
-                            sem = j["sem"].toString(),
-                            sub = j["sub"].toString(),
-                            unit = j["unit"].toString()
-                        )
-                        mList.add(p)
+                    viewModelScope.launch(Dispatchers.IO) {
+                        val mList = mutableListOf<ProgramItemData>()
+                        for (j in it.documents) {
+                            val isFav = programDb.isFav(j!!["id"].toString().toInt())
+                            val p = ProgramItemData(
+                                id = j!!["id"].toString().toInt(),
+                                title = j["title"].toString(),
+                                content = j["content"].toString(),
+                                sem = j["sem"].toString(),
+                                sub = j["sub"].toString(),
+                                unit = j["unit"].toString(),
+                                isFav = isFav
+                            )
+                            mList.add(p)
+                        }
+
+                        isLoading.value = false
+                        myPrograms.value = mList
                     }
-                    //msg.postValue(mList.size.toString())
-                    //clearPrograms()
-//                    _programsList.postValue(mList)
-//                    _loading.postValue(false)
-                    isLoading.value = false
-                    myPrograms.value = mList
-                    //refresh()
+
                 }.addOnFailureListener {
 //                    msg.postValue("Failure"+it.message.toString())
 //                    clearPrograms()
@@ -103,6 +92,18 @@ class HomeViewModel @Inject constructor(private val programDb: ProgramDao) : Vie
             //msg.postValue(e.message)
         }
 
+    }
+
+    fun addToFavourite(program: Program) {
+        viewModelScope.launch(Dispatchers.IO) {
+            programDb.insert(program.toProgramEntity())
+        }
+    }
+
+    fun removeFromFav(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            programDb.removeFav(id)
+        }
     }
 
 }
