@@ -94,7 +94,7 @@ class HomeViewModel @Inject constructor(private val programDb: ProgramDao) : Vie
 
     }
 
-    fun addToFavourite(program: Program) {
+    fun addToFavourite(program: ProgramItemData) {
         viewModelScope.launch(Dispatchers.IO) {
             programDb.insert(program.toProgramEntity())
         }

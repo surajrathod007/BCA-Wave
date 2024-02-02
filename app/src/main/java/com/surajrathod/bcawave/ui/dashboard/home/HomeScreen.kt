@@ -134,7 +134,7 @@ fun HomeScreen(
                                 index = (index + 1).toString(),
                                 onFavClick = { isFav, program ->
                                     if (isFav) {
-                                        homeViewModel.addToFavourite(program.toProgram())
+                                        homeViewModel.addToFavourite(program)
                                     } else {
                                         homeViewModel.removeFromFav(program.id)
                                     }

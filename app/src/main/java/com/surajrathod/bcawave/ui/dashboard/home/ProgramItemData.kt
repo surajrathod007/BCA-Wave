@@ -1,5 +1,7 @@
 package com.surajrathod.bcawave.ui.dashboard.home
 
+import com.surajrathod.bcawave.db.models.ProgramEntity
+
 data class ProgramItemData(
     val isFav: Boolean = false, val sub: String = "",
     val unit: String = "",
@@ -10,5 +12,9 @@ data class ProgramItemData(
 ) {
     fun toProgram(): Program {
         return Program(sub, unit, sem, id, title, content)
+    }
+
+    fun toProgramEntity(): ProgramEntity {
+        return ProgramEntity(id, title, content, sem, sub)
     }
 }
