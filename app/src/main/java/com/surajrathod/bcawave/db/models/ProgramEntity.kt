@@ -2,6 +2,7 @@ package com.surajrathod.bcawave.db.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.surajrathod.bcawave.ui.dashboard.home.ProgramItemData
 import java.io.Serializable
 
 @Entity
@@ -13,4 +14,8 @@ data class ProgramEntity(
     val sem: String = "",
     val sub: String = "",
     val unit: String = ""
-) : Serializable
+) : Serializable{
+    fun toProgramItemData(isFav: Boolean): ProgramItemData {
+        return ProgramItemData(isFav, sub, unit, sem, id, title, content)
+    }
+}

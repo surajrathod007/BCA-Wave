@@ -2,6 +2,7 @@ package com.surajrathod.bcawave.ui.dashboard.home
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -39,6 +40,8 @@ class HomeViewModel @Inject constructor(private val programDb: ProgramDao) : Vie
 
     var myPrograms: MutableState<MutableList<ProgramItemData>> = mutableStateOf(mutableListOf())
     var isLoading = mutableStateOf(false)
+
+    val localPrograms = programDb.getAllProgram()
 
 
     private fun createSubjectsMutableMap() {

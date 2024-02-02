@@ -99,6 +99,9 @@ dependencies {
     kapt("androidx.room:room-compiler:$room_version")
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
+
+    //compose live data
+    implementation ("androidx.compose.runtime:runtime-livedata:1.4.0")
 }
 
 // Allow references to generated code

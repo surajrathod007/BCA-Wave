@@ -1,6 +1,7 @@
 package com.surajrathod.bcawave.ui.dashboard.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -16,7 +17,7 @@ fun BottomNavGraph(
     homeViewModel: HomeViewModel,
     paddings: PaddingValues
 ) {
-
+    val localProgramsLazyListState = rememberLazyListState()
     NavHost(navController = navController, startDestination = BottomBarScreen.Home.route) {
         composable(
             route = BottomBarScreen.Home.route
@@ -28,7 +29,7 @@ fun BottomNavGraph(
         composable(
             route = BottomBarScreen.Programs.route
         ) {
-            ProgramsScreen(homeViewModel)
+            ProgramsScreen(homeViewModel, localProgramsLazyListState)
         }
         composable(
             route = BottomBarScreen.Profile.route
