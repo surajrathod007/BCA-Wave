@@ -30,12 +30,17 @@ import com.surajrathod.bcawave.ui.theme.PrimaryColor
 
 
 @Composable
-fun ProgramsScreen(homeViewModel: HomeViewModel, lazyListState: LazyListState) {
+fun ProgramsScreen(
+    homeViewModel: HomeViewModel,
+    lazyListState: LazyListState,
+    paddingValues: PaddingValues
+) {
     val programs = homeViewModel.localPrograms.observeAsState().value?.map {
         it.toProgramItemData(true)
     }
     Surface(
         color = PrimaryBgColor, modifier = Modifier
+            .padding(paddingValues)
             .fillMaxSize()
     ) {
         Column {
@@ -43,7 +48,7 @@ fun ProgramsScreen(homeViewModel: HomeViewModel, lazyListState: LazyListState) {
                 Modifier
                     .background(PrimaryColor)
                     .fillMaxWidth()
-                    .padding(vertical = 12.dp)
+                    .padding(vertical = 12.dp),
             ) {
                 Text(
                     text = "Favourites",

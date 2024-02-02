@@ -29,7 +29,7 @@ fun BottomNavGraph(
         composable(
             route = BottomBarScreen.Programs.route
         ) {
-            ProgramsScreen(homeViewModel, localProgramsLazyListState)
+            ProgramsScreen(homeViewModel, localProgramsLazyListState,paddings)
         }
         composable(
             route = BottomBarScreen.Profile.route
