@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -112,7 +113,7 @@ fun NewBottomNavigation(navHostController: NavHostController) {
             bottomBarItems.forEachIndexed { index, item ->
                 AnimatedBottomNavigationItem(
                     label = item.title,
-                    icon = item.icon,
+                    icon = ImageVector.vectorResource(item.icon),
                     unselectedContentColor = iconColor,
                     selectedContentColor = iconColor,
                     selected = currentDestination?.hierarchy?.any {

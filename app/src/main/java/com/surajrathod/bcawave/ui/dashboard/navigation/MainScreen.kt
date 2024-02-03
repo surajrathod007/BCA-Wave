@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.toFontFamily
 import androidx.navigation.NavDestination
@@ -85,7 +87,10 @@ fun RowScope.AddItem(
             )
         },
         icon = {
-            Icon(imageVector = screen.icon, contentDescription = "")
+            Icon(
+                imageVector = ImageVector.vectorResource(id = screen.icon),
+                contentDescription = ""
+            )
         },
         selected = currentDestination.hierarchy.any {
             it.route == screen.route

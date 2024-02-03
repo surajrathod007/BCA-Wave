@@ -56,7 +56,7 @@ fun HomeScreen(
                     Text(
                         text = "Home",
                         color = Color.White,
-                        modifier = Modifier.padding(start = 6.dp, top = 6.dp),
+                        modifier = Modifier.padding(start = 6.dp, top = 8.dp, bottom = 8.dp),
                         fontFamily = Font(
                             R.font.main_bold
                         ).toFontFamily(),
