@@ -5,10 +5,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,14 +24,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.toFontFamily
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.surajrathod.bcawave.ui.dashboard.home.HomeViewModel
 import com.surajrathod.bcawave.R
 import com.surajrathod.bcawave.ui.dashboard.home.ProgramItemData
+import com.surajrathod.bcawave.ui.dashboard.home.components.ComposeLottieAnimation
+import com.surajrathod.bcawave.ui.programdetails.components.CommonTextBadge
 import com.surajrathod.bcawave.ui.programdetails.components.CommonToggleButton
+import com.surajrathod.bcawave.ui.theme.PrimaryBgColor
 import com.surajrathod.bcawave.ui.theme.PrimaryColor
+import com.surajrathod.bcawave.ui.theme.SemColor
+import com.surajrathod.bcawave.ui.theme.SubColor
+import com.surajrathod.bcawave.ui.theme.UnitColor
 import com.surajrathod.bcawave.ui.utils.components.HeartButton
 
 
@@ -49,9 +60,89 @@ fun ProgramDetailsScreen(
 
     Log.d("SURAJPROGRAM", "IsFav : ${program.value?.isFav}")
     //Log.d("SURAJPROGRAM", "Compose program : ${programDetailsViewModel.currentProgram.value}")
-    Column(Modifier.fillMaxSize()) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(PrimaryBgColor)
+    ) {
         TopNavigation(program.value?.isFav ?: false, onFavButtonClick = {}) {
             onBackPress.invoke()
+        }
+        if (programDetailsViewModel.isLoading.value) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(PrimaryBgColor),
+                contentAlignment = Alignment.Center
+            ) {
+//                    LoaderText(
+//                        modifier = Modifier
+//                            .align(Alignment.Center)
+//                    )
+                ComposeLottieAnimation(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(160.dp)
+                )
+            }
+
+        } else {
+            Column {
+                Text(
+                    text = "${program.value?.title}", fontFamily = Font(
+                        R.font.main_semibold
+                    ).toFontFamily(),
+                    color = PrimaryColor,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .padding(horizontal = 12.dp, vertical = 8.dp)
+                )
+                Row(
+                    modifier = Modifier.padding(start = 12.dp, top = 10.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    CommonTextBadge(
+                        modifier = Modifier,
+                        text = "${program.value?.sem}",
+                        textColor = SemColor,
+                    )
+                    CommonTextBadge(
+                        modifier = Modifier,
+                        text = "${program.value?.sub}",
+                        textColor = SubColor,
+                    )
+                    CommonTextBadge(
+                        modifier = Modifier,
+                        text = "${program.value?.unit}",
+                        textColor = UnitColor,
+                    )
+                }
+
+            }
+        }
+    }
+}
+
+
+@Composable
+fun MyPreview() {
+    Column(Modifier.fillMaxSize()) {
+        TopNavigation(false, onFavButtonClick = {}) {
+            //onBackPress.invoke()
+        }
+        Column {
+            Text(
+                text = "Helllo", fontFamily = Font(
+                    R.font.main_semibold
+                ).toFontFamily(),
+                color = PrimaryColor,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .padding(horizontal = 8.dp, vertical = 8.dp)
+                    .weight(1f)
+            )
         }
     }
 }
@@ -91,8 +182,7 @@ fun TopNavigation(
 @Preview(showSystemUi = true)
 @Composable
 fun ProgramDetailsScreenPreview(
-    homeViewModel: ProgramDetailsViewModel = viewModel(),
     programId: String = ""
 ) {
-    ProgramDetailsScreen(programId = programId, homeViewModel)
+    MyPreview()
 }

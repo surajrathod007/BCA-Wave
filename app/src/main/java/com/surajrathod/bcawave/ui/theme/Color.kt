@@ -14,3 +14,5 @@ val PrimaryColor = Color(0xff3e416e)
 val PrimaryBgColor = Color(0xfff0f4fd)
 
 val UnitColor = Color(0xFF62D76C)
+val SemColor = Color(0xFF4485fd)
+val SubColor = Color(0xFFfe7853)
