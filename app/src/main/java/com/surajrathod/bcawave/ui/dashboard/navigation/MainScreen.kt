@@ -40,7 +40,7 @@ fun MainScreen(homeViewModel: HomeViewModel, programDetailsViewModel: ProgramDet
     Scaffold(
         bottomBar = {
             //if current screen is not details then and then only this should be visible
-            if (currentScreen != ScreenRoutes.PROGRAM_DETAILS_ROUTE) {
+            if (currentScreen != null && !currentScreen.startsWith(ScreenRoutes.PROGRAM_DETAILS_ROUTE)) {
                 NewBottomNavigation(navController)
             }
         }

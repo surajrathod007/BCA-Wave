@@ -1,5 +1,7 @@
 package com.surajrathod.bcawave.ui.dashboard.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
@@ -46,7 +48,19 @@ fun BottomNavGraph(
             "${ScreenRoutes.PROGRAM_DETAILS_ROUTE}/{programId}",
             arguments = listOf(navArgument("programId") {
                 type = NavType.StringType
-            })
+            }),
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = tween(700)
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(700)
+                )
+            }
         ) { backStackEntry ->
             val programId = backStackEntry.arguments?.getString("programId") ?: ""
             ProgramDetailsScreen(programId, programDetailsViewModel) {
