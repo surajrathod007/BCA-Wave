@@ -111,6 +111,13 @@ fun NewBottomNavigation(navHostController: NavHostController) {
         ) {
             val iconColor = colorResource(id = R.color.white)
             bottomBarItems.forEachIndexed { index, item ->
+
+                //for the top bar,if it is selected item from navigation than we have to change the selected index,it was a bug if i remove this then click on fav program and see the top bar
+                if (currentDestination?.hierarchy?.any {
+                        it.route == item.route
+                    } == true) {
+                    currentIndex = index
+                }
                 AnimatedBottomNavigationItem(
                     label = item.title,
                     icon = ImageVector.vectorResource(item.icon),
