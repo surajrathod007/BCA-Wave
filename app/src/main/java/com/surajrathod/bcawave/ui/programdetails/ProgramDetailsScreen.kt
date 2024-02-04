@@ -22,13 +22,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.toFontFamily
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.surajrathod.bcawave.ui.dashboard.home.HomeViewModel
 import com.surajrathod.bcawave.R
@@ -118,7 +121,18 @@ fun ProgramDetailsScreen(
                         textColor = UnitColor,
                     )
                 }
-
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 12.dp, top = 8.dp),
+                    text = "Report program",
+                    fontFamily = Font(
+                        R.font.main_semibold
+                    ).toFontFamily(),
+                    textAlign = TextAlign.End,
+                    fontSize = 14.sp,
+                    color = Color.Red
+                )
             }
         }
     }
@@ -133,15 +147,46 @@ fun MyPreview() {
         }
         Column {
             Text(
-                text = "Helllo", fontFamily = Font(
+                text = "title", fontFamily = Font(
                     R.font.main_semibold
                 ).toFontFamily(),
                 color = PrimaryColor,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
-                    .padding(horizontal = 8.dp, vertical = 8.dp)
-                    .weight(1f)
+                    .padding(horizontal = 12.dp, vertical = 8.dp)
+            )
+            Row(
+                modifier = Modifier.padding(start = 12.dp, top = 10.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                CommonTextBadge(
+                    modifier = Modifier,
+                    text = "Sem",
+                    textColor = SemColor,
+                )
+                CommonTextBadge(
+                    modifier = Modifier,
+                    text = "Sub",
+                    textColor = SubColor,
+                )
+                CommonTextBadge(
+                    modifier = Modifier,
+                    text = "Unit}",
+                    textColor = UnitColor,
+                )
+            }
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 12.dp, top = 8.dp),
+                text = "Report program",
+                fontFamily = Font(
+                    R.font.main_semibold
+                ).toFontFamily(),
+                textAlign = TextAlign.End,
+                fontSize = 14.sp,
+                color = Color.Red
             )
         }
     }
