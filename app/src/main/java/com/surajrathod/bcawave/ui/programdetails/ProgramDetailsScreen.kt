@@ -1,8 +1,10 @@
 package com.surajrathod.bcawave.ui.programdetails
 
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +14,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,6 +28,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -34,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.meetup.twain.MarkdownText
 import com.surajrathod.bcawave.ui.dashboard.home.HomeViewModel
 import com.surajrathod.bcawave.R
 import com.surajrathod.bcawave.ui.dashboard.home.ProgramItemData
@@ -94,7 +102,7 @@ fun ProgramDetailsScreen(
             }
 
         } else {
-            Column {
+            Column(Modifier.verticalScroll(rememberScrollState())) {
                 Text(
                     text = "${program.value?.title}", fontFamily = Font(
                         R.font.main_semibold
@@ -132,8 +140,9 @@ fun ProgramDetailsScreen(
                         .clickable {
                             val send = "bcazone007@gmail.com"
                             val subject = "Report ProgramEntity ${program.value?.id}"
-                            val message = "Hello, BCA Hub team , I Found an Error On ProgramEntity Number ${program.value?.id}"
-                            mContext.sendReport(send,subject, message)
+                            val message =
+                                "Hello, BCA Hub team , I Found an Error On ProgramEntity Number ${program.value?.id}"
+                            mContext.sendReport(send, subject, message)
                         },
                     text = "Report program",
                     fontFamily = Font(
@@ -143,6 +152,29 @@ fun ProgramDetailsScreen(
                     fontSize = 14.sp,
                     color = Color.Red
                 )
+                Box(
+                    modifier = Modifier
+                        .padding(12.dp)
+                        .fillMaxWidth()
+                        .background(
+                            Color.White, CircleShape.copy(
+                                CornerSize(8.dp)
+                            )
+                        )
+                ) {
+                    MarkdownText(
+                        markdown = "${program.value?.content}",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp)
+                            .clip(CircleShape.copy(CornerSize(8.dp)))
+                            .border(
+                                BorderStroke(1.dp, PrimaryColor.copy(0.5f)),
+                                CircleShape.copy(CornerSize(8.dp))
+                            )
+                    )
+                }
+
             }
         }
     }

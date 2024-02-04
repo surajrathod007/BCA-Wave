@@ -102,6 +102,9 @@ dependencies {
 
     //compose live data
     implementation ("androidx.compose.runtime:runtime-livedata:1.4.0")
+
+    //markwon
+    implementation("com.meetup:twain:0.2.2")
 }
 
 // Allow references to generated code
