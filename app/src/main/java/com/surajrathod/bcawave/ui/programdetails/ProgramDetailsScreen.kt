@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.toFontFamily
@@ -45,6 +46,7 @@ import com.surajrathod.bcawave.ui.theme.SemColor
 import com.surajrathod.bcawave.ui.theme.SubColor
 import com.surajrathod.bcawave.ui.theme.UnitColor
 import com.surajrathod.bcawave.ui.utils.components.HeartButton
+import com.surajrathod.bcawave.utils.sendReport
 
 
 @Composable
@@ -54,6 +56,8 @@ fun ProgramDetailsScreen(
     onBackPress: () -> Unit = {}
 ) {
 
+    // Fetching the Local Context
+    val mContext = LocalContext.current
     val program = programDetailsViewModel.currentProgram.observeAsState()
     LaunchedEffect(programId) {
         //Log.d("SURAJPROGRAM", "Programid : $programId")
@@ -124,7 +128,13 @@ fun ProgramDetailsScreen(
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(end = 12.dp, top = 8.dp),
+                        .padding(end = 12.dp, top = 8.dp)
+                        .clickable {
+                            val send = "bcazone007@gmail.com"
+                            val subject = "Report ProgramEntity ${program.value?.id}"
+                            val message = "Hello, BCA Hub team , I Found an Error On ProgramEntity Number ${program.value?.id}"
+                            mContext.sendReport(send,subject, message)
+                        },
                     text = "Report program",
                     fontFamily = Font(
                         R.font.main_semibold
@@ -179,7 +189,10 @@ fun MyPreview() {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(end = 12.dp, top = 8.dp),
+                    .padding(end = 12.dp, top = 8.dp)
+                    .clickable {
+
+                    },
                 text = "Report program",
                 fontFamily = Font(
                     R.font.main_semibold
