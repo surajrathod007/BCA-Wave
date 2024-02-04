@@ -1,6 +1,7 @@
 package com.surajrathod.bcawave.ui.dashboard.navigation
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.Icon
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,22 +24,33 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.surajrathod.bcawave.R
 import com.surajrathod.bcawave.ui.dashboard.home.HomeViewModel
+import com.surajrathod.bcawave.ui.programdetails.ProgramDetailsViewModel
 import com.surajrathod.bcawave.ui.theme.PrimaryColor
+import com.surajrathod.bcawave.utils.ScreenRoutes
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(homeViewModel: HomeViewModel) {
+fun MainScreen(homeViewModel: HomeViewModel, programDetailsViewModel: ProgramDetailsViewModel) {
 
     val navController = rememberNavController()
+    val currentScreen = navController.currentBackStackEntryAsState().value?.destination?.route
 
     Scaffold(
         bottomBar = {
-            NewBottomNavigation(navController)
+            //if current screen is not details then and then only this should be visible
+            if (currentScreen != ScreenRoutes.PROGRAM_DETAILS_ROUTE) {
+                NewBottomNavigation(navController)
+            }
         }
     ) { paddings ->
-        BottomNavGraph(navController = navController, homeViewModel, paddings)
+        BottomNavGraph(
+            navController = navController,
+            homeViewModel,
+            programDetailsViewModel = programDetailsViewModel,
+            paddings
+        )
     }
 
 }

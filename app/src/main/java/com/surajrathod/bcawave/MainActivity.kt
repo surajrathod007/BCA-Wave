@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.google.firebase.ktx.Firebase
 import com.surajrathod.bcawave.ui.dashboard.home.HomeViewModel
 import com.surajrathod.bcawave.ui.dashboard.navigation.MainScreen
+import com.surajrathod.bcawave.ui.programdetails.ProgramDetailsViewModel
 import com.surajrathod.bcawave.ui.theme.BCAWaveTheme
 import com.surajrathod.bcawave.ui.theme.MainTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val homeViewModel by viewModels<HomeViewModel>()
+    private val programDetailsViewModel by viewModels<ProgramDetailsViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +38,7 @@ class MainActivity : ComponentActivity() {
             MainTheme(false) {
 
                 // A surface container using the 'background' color from the theme
-                MainScreen(homeViewModel)
+                MainScreen(homeViewModel,programDetailsViewModel)
             }
         }
     }

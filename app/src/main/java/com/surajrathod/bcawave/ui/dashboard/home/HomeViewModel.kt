@@ -43,6 +43,7 @@ class HomeViewModel @Inject constructor(private val programDb: ProgramDao) : Vie
 
     val localPrograms = programDb.getAllProgram()
 
+    var currentProgram = mutableStateOf(ProgramItemData())
 
     private fun createSubjectsMutableMap() {
         subjectmutableMap[1] = listOf("IPLC", "HTML")
@@ -56,6 +57,38 @@ class HomeViewModel @Inject constructor(private val programDb: ProgramDao) : Vie
 
     fun updateData() {
         getFirestorePrograms(currentSem.value, currentSubject.value, currentUnit.value)
+    }
+
+    fun getProgramById(programId: String) {
+        Log.d("SURAJPROGRAM","First call")
+        try {
+            isLoading.value = true
+            val programCollection = db.collection("newPrograms")
+            programCollection.whereEqualTo("id", programId).get().addOnSuccessListener {
+                val myProgram = it.documents.firstOrNull()
+                if (myProgram != null) {
+                    val isFav = programDb.isFav(myProgram["id"].toString().toInt())
+                    val p = ProgramItemData(
+                        id = myProgram!!["id"].toString().toInt(),
+                        title = myProgram["title"].toString(),
+                        content = myProgram["content"].toString(),
+                        sem = myProgram["sem"].toString(),
+                        sub = myProgram["sub"].toString(),
+                        unit = myProgram["unit"].toString(),
+                        isFav = isFav
+                    )
+                    currentProgram.value = p
+                    Log.d("SURAJPROGRAM","Program: $p")
+                    isLoading.value = false
+                }
+            }.addOnFailureListener {
+                isLoading.value = false
+                Log.d("SURAJPROGRAM","Failed: ${it.message}")
+            }
+        } catch (e: Exception) {
+            isLoading.value = false
+            Log.d("SURAJPROGRAM","Exception: ${e.message}")
+        }
     }
 
     private fun getFirestorePrograms(sem: String, sub: String, unit: String) {

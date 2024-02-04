@@ -2,6 +2,7 @@ package com.surajrathod.bcawave.ui.dashboard.home.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -53,6 +54,9 @@ fun ProgramItem(
             .fillMaxWidth()
             .height(44.dp)
             .clip(CircleShape.copy(CornerSize(4.dp)))
+            .clickable {
+                onClick.invoke(program)
+            }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
