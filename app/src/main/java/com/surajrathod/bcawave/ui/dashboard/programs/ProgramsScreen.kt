@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.surajrathod.bcawave.R
 import com.surajrathod.bcawave.ui.dashboard.home.HomeViewModel
+import com.surajrathod.bcawave.ui.dashboard.home.ProgramItemData
 import com.surajrathod.bcawave.ui.dashboard.home.components.ProgramItem
 import com.surajrathod.bcawave.ui.theme.PrimaryBgColor
 import com.surajrathod.bcawave.ui.theme.PrimaryColor
@@ -33,7 +34,8 @@ import com.surajrathod.bcawave.ui.theme.PrimaryColor
 fun ProgramsScreen(
     homeViewModel: HomeViewModel,
     lazyListState: LazyListState,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    onProgramClicked: (ProgramItemData) -> Unit
 ) {
     val programs = homeViewModel.localPrograms.observeAsState().value?.map {
         it.toProgramItemData(true)
@@ -79,7 +81,7 @@ fun ProgramsScreen(
                                     homeViewModel.removeFromFav(program.id)
                                 }
                             }) { program ->
-                            //onProgramItemClick.invoke(program.toProgram())
+                            onProgramClicked.invoke(program)
                         }
                     }
                 }
