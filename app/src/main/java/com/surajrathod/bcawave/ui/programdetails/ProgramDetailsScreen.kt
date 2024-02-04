@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,6 +19,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -54,7 +57,9 @@ import com.surajrathod.bcawave.ui.theme.SemColor
 import com.surajrathod.bcawave.ui.theme.SubColor
 import com.surajrathod.bcawave.ui.theme.UnitColor
 import com.surajrathod.bcawave.ui.utils.components.HeartButton
+import com.surajrathod.bcawave.utils.copyTextToClipboard
 import com.surajrathod.bcawave.utils.sendReport
+import com.surajrathod.bcawave.utils.shareProgram
 
 
 @Composable
@@ -162,17 +167,56 @@ fun ProgramDetailsScreen(
                             )
                         )
                 ) {
-                    MarkdownText(
-                        markdown = "${program.value?.content}",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(12.dp)
-                            .clip(CircleShape.copy(CornerSize(8.dp)))
-                            .border(
-                                BorderStroke(1.dp, PrimaryColor.copy(0.5f)),
-                                CircleShape.copy(CornerSize(8.dp))
-                            )
-                    )
+                    Column {
+                        MarkdownText(
+                            markdown = "${program.value?.content}",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(12.dp)
+                                .clip(CircleShape.copy(CornerSize(8.dp)))
+                                .border(
+                                    BorderStroke(1.dp, PrimaryColor.copy(0.5f)),
+                                    CircleShape.copy(CornerSize(8.dp))
+                                )
+                        )
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(top = 12.dp, start = 12.dp, end = 12.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            OutlinedButton(modifier = Modifier.weight(1f), onClick = {
+                                //Copy program
+                                mContext.copyTextToClipboard(program.value?.content ?: "")
+                            }) {
+                                Text(
+                                    text = "Copy", fontFamily = Font(
+                                        R.font.main_semibold
+                                    ).toFontFamily(), fontSize = 14.sp
+                                )
+                            }
+                            Button(
+                                modifier = Modifier
+                                    .weight(1f), onClick = {
+                                    //Share the program
+                                    program.value?.let { mContext.shareProgram(it) }
+                                }
+                            ) {
+                                Text(
+                                    text = "Share", fontFamily = Font(
+                                        R.font.main_semibold
+                                    ).toFontFamily(), fontSize = 14.sp
+                                )
+                                Spacer(modifier = Modifier.weight(1f))
+                                Image(
+                                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_baseline_share_24),
+                                    contentDescription = ""
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(12.dp))
+                    }
+
                 }
 
             }
@@ -183,13 +227,16 @@ fun ProgramDetailsScreen(
 
 @Composable
 fun MyPreview() {
+    val program = remember {
+        mutableStateOf(ProgramItemData().getTempData())
+    }
     Column(Modifier.fillMaxSize()) {
         TopNavigation(false, onFavButtonClick = {}) {
             //onBackPress.invoke()
         }
-        Column {
+        Column(Modifier.verticalScroll(rememberScrollState())) {
             Text(
-                text = "title", fontFamily = Font(
+                text = "${program.value?.title}", fontFamily = Font(
                     R.font.main_semibold
                 ).toFontFamily(),
                 color = PrimaryColor,
@@ -204,17 +251,17 @@ fun MyPreview() {
             ) {
                 CommonTextBadge(
                     modifier = Modifier,
-                    text = "Sem",
+                    text = "${program.value?.sem}",
                     textColor = SemColor,
                 )
                 CommonTextBadge(
                     modifier = Modifier,
-                    text = "Sub",
+                    text = "${program.value?.sub}",
                     textColor = SubColor,
                 )
                 CommonTextBadge(
                     modifier = Modifier,
-                    text = "Unit}",
+                    text = "${program.value?.unit}",
                     textColor = UnitColor,
                 )
             }
@@ -223,7 +270,11 @@ fun MyPreview() {
                     .fillMaxWidth()
                     .padding(end = 12.dp, top = 8.dp)
                     .clickable {
-
+                        val send = "bcazone007@gmail.com"
+                        val subject = "Report ProgramEntity ${program.value?.id}"
+                        val message =
+                            "Hello, BCA Hub team , I Found an Error On ProgramEntity Number ${program.value?.id}"
+                        // mContext.sendReport(send, subject, message)
                     },
                 text = "Report program",
                 fontFamily = Font(
@@ -233,6 +284,68 @@ fun MyPreview() {
                 fontSize = 14.sp,
                 color = Color.Red
             )
+            Box(
+                modifier = Modifier
+                    .padding(12.dp)
+                    .fillMaxWidth()
+                    .background(
+                        Color.White, CircleShape.copy(
+                            CornerSize(8.dp)
+                        )
+                    )
+            ) {
+                Column {
+                    MarkdownText(
+                        markdown = "${program.value?.content}",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp)
+                            .clip(CircleShape.copy(CornerSize(8.dp)))
+                            .border(
+                                BorderStroke(1.dp, PrimaryColor.copy(0.5f)),
+                                CircleShape.copy(CornerSize(8.dp))
+                            )
+                    )
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 12.dp, start = 12.dp, end = 12.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        OutlinedButton(modifier = Modifier.weight(1f), onClick = {
+                            //Copy program
+                           // mContext.copyTextToClipboard(program.value?.content ?: "")
+                        }) {
+                            Text(
+                                text = "Copy", fontFamily = Font(
+                                    R.font.main_semibold
+                                ).toFontFamily(), fontSize = 14.sp
+                            )
+                        }
+                        Button(
+                            modifier = Modifier
+                                .weight(1f), onClick = {
+                                //Share the program
+                                //program.value?.let { mContext.shareProgram(it) }
+                            }
+                        ) {
+                            Text(
+                                text = "Share", fontFamily = Font(
+                                    R.font.main_semibold
+                                ).toFontFamily(), fontSize = 14.sp
+                            )
+                            Spacer(modifier = Modifier.weight(1f))
+                            Image(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_baseline_share_24),
+                                contentDescription = ""
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
+
+            }
+
         }
     }
 }

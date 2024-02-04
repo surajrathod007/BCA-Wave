@@ -17,4 +17,8 @@ data class ProgramItemData(
     fun toProgramEntity(): ProgramEntity {
         return ProgramEntity(id, title, content, sem, sub)
     }
+
+    fun getTempData(): ProgramItemData {
+        return ProgramItemData(false, "Sub", "Unit", "Sem", 0, "Sample title", "Sample content")
+    }
 }
